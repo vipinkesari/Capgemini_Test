@@ -1,31 +1,35 @@
 package com.myinfosysprogram.ui.home
 
-import android.content.Intent
+import android.Manifest
+import android.annotation.SuppressLint
+import android.content.Context
+import android.content.pm.PackageManager
+import android.location.Location
+import android.location.LocationListener
+import android.location.LocationManager
+import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.Toast
-import androidx.annotation.Nullable
+import androidx.core.app.ActivityCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import com.google.android.gms.common.api.Status
-import com.google.android.libraries.places.api.model.Place
-import com.google.android.libraries.places.widget.Autocomplete
-import com.google.android.libraries.places.widget.AutocompleteActivity
-import com.google.android.libraries.places.widget.model.AutocompleteActivityMode
 import com.myinfosysprogram.R
 import com.myinfosysprogram.base.BaseActivity
 import com.myinfosysprogram.viewModel.HomeCommunicatorViewModel
 import kotlinx.android.synthetic.main.activity_main.*
-import java.util.*
 
-
-class MainActivity : BaseActivity() {
+open class MainActivity : BaseActivity(), LocationListener {
     private lateinit var communicatorViewModel: HomeCommunicatorViewModel
     private lateinit var titleObserver: Observer<String>
-    private lateinit var menuObserver: Observer<Boolean>
+    private lateinit var askPermissionObserver: Observer<Boolean>
     private var mainMenu: Menu? = null
-    private val AUTOCOMPLETE_REQUEST_CODE = 9001
+    private var locationManager: LocationManager? = null
+
+
+    companion object {
+        private const val PERMISSION_REQUEST_ACCESS_FINE_LOCATION = 100
+    }
 
     override fun getLayoutId(): Int {
         return R.layout.activity_main
@@ -33,10 +37,12 @@ class MainActivity : BaseActivity() {
 
     override fun initUI() {
         communicatorViewModel = ViewModelProvider(this).get(HomeCommunicatorViewModel::class.java)
-
         setSupportActionBar(toolbar)
         manageToolbar(this.resources.getString(R.string.app_name))
         initObserver()
+
+        locationManager = getSystemService(Context.LOCATION_SERVICE) as? LocationManager
+        getLocation()
     }
 
     private fun initObserver() {
@@ -46,10 +52,13 @@ class MainActivity : BaseActivity() {
         }
         communicatorViewModel.titleUpdateMutableLiveData.observe(this, titleObserver)
 
-        menuObserver = Observer {
-            manageMenu(it)
+        askPermissionObserver = Observer {
+            getLocation()
         }
-        communicatorViewModel.searchUIMutableLiveData.observe(this, menuObserver)
+        communicatorViewModel.askLocationPermissionMutableLiveData.observe(
+            this,
+            askPermissionObserver
+        )
     }
 
     /* this fun is used to update the title of action bar*/
@@ -77,7 +86,7 @@ class MainActivity : BaseActivity() {
         // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.menu_main, menu)
         this.mainMenu = menu
-        return true
+        return false
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -86,56 +95,87 @@ class MainActivity : BaseActivity() {
         // as you specify a parent activity in AndroidManifest.xml.
         return when (item.itemId) {
             R.id.action_settings -> {
-                openLocationSearch()
                 true
             }
             else -> super.onOptionsItemSelected(item)
         }
     }
 
-    /* move to location search screen */
-    private fun openLocationSearch() {
-        /*(supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment).navController.navigate(
-            R.id.action_photoFragment_to_searchFragment
-        )*/
-
-        val fields: List<Place.Field> = Arrays.asList(
-            Place.Field.ID,
-            Place.Field.NAME,
-            Place.Field.ADDRESS,
-            Place.Field.LAT_LNG
-        )
-
-        val intent = Autocomplete.IntentBuilder(
-            AutocompleteActivityMode.FULLSCREEN, fields
-        ).setCountry("NG") //NIGERIA
-            .build(this)
-        this.startActivityForResult(intent, AUTOCOMPLETE_REQUEST_CODE)
+    private fun getLocation() {
+        if (ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf(
+                    Manifest.permission.ACCESS_FINE_LOCATION,
+                    Manifest.permission.ACCESS_COARSE_LOCATION
+                ),
+                PERMISSION_REQUEST_ACCESS_FINE_LOCATION
+            )
+            return
+        }
+        getLastKnownLocation(this)
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, @Nullable data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == AUTOCOMPLETE_REQUEST_CODE) {
-            if (resultCode == RESULT_OK) {
-                val place = Autocomplete.getPlaceFromIntent(data!!)
-                Log.i("TAG", "Place: " + place.name + ", " + place.id + ", " + place.address)
-                Toast.makeText(
-                    this,
-                    "ID: " + place.id + "address:" + place.address + "Name:" + place.name + " latlong: " + place.latLng,
-                    Toast.LENGTH_LONG
-                ).show()
-                val address = place.address
-                // do query with address
-            } else if (resultCode == AutocompleteActivity.RESULT_ERROR) {
-                // TODO: Handle the error.
-                val status: Status = Autocomplete.getStatusFromIntent(data!!)
-                Toast.makeText(
-                    this,
-                    "Error: " + status.getStatusMessage(),
-                    Toast.LENGTH_LONG
-                ).show()
-                Log.i("TAG", status.getStatusMessage())
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == PERMISSION_REQUEST_ACCESS_FINE_LOCATION) {
+            when (grantResults[0]) {
+                PackageManager.PERMISSION_GRANTED -> getLocation()
+                PackageManager.PERMISSION_DENIED -> communicatorViewModel.updateLocation(false)
             }
         }
     }
+
+    override fun onLocationChanged(location: Location?) {
+        communicatorViewModel.location = location
+        communicatorViewModel.updateLocation(true)
+        Log.e("LocationLat", "${location?.latitude}")
+        Log.e("LocationLong", "${location?.longitude}")
+    }
+
+    override fun onStatusChanged(provider: String?, status: Int, extras: Bundle?) {
+
+    }
+
+    override fun onProviderEnabled(provider: String?) {
+
+    }
+
+    override fun onProviderDisabled(provider: String?) {
+        communicatorViewModel.updateLocation(false)
+    }
+
+    @SuppressLint("MissingPermission")
+    private fun getLastKnownLocation(context: Context) {
+        val locationManager: LocationManager =
+            context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        val providers: List<String> = locationManager.getProviders(true)
+        var location: Location? = null
+        for (i in providers.size - 1 downTo 0) {
+            location = locationManager.getLastKnownLocation(providers[i])
+            if (location != null)
+                break
+        }
+        val gps = DoubleArray(2)
+        if (location != null) {
+            Log.e("gpsLat", gps[0].toString())
+            Log.e("gpsLong", gps[1].toString())
+            communicatorViewModel.location = location
+            communicatorViewModel.updateLocation(true)
+        }
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,0,0.1f,this)
+        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0L, 0f, this)
+    }
 }
+
