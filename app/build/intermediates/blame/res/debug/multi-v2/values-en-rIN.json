@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "/Users/vipinkeshari/Desktop/test_git/MyInfosysProgram/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-en-rIN/values-en-rIN.xml",
+            "outputFile": "/Users/vipinkeshari/Desktop/test_git/WeatherApp/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-en-rIN/values-en-rIN.xml",
             "map": [
                 {
                     "source": "/Users/vipinkeshari/.gradle/caches/transforms-2/files-2.1/ce61341173d00a993b5eae15146567f4/navigation-ui-2.3.5/res/values-en-rIN/values-en-rIN.xml",

@@ -7,7 +7,7 @@ import androidx.databinding.DataBinderMapper;
 import androidx.databinding.DataBindingComponent;
 import androidx.databinding.ViewDataBinding;
 import com.myinfosysprogram.databinding.ItemHomeRvBindingImpl;
-import com.myinfosysprogram.databinding.ItemUserRvBindingImpl;
+import com.myinfosysprogram.databinding.ItemMainWeatherBindingImpl;
 import java.lang.IllegalArgumentException;
 import java.lang.Integer;
 import java.lang.Object;
@@ -21,13 +21,13 @@ import java.util.List;
 public class DataBinderMapperImpl extends DataBinderMapper {
   private static final int LAYOUT_ITEMHOMERV = 1;
 
-  private static final int LAYOUT_ITEMUSERRV = 2;
+  private static final int LAYOUT_ITEMMAINWEATHER = 2;
 
   private static final SparseIntArray INTERNAL_LAYOUT_ID_LOOKUP = new SparseIntArray(2);
 
   static {
     INTERNAL_LAYOUT_ID_LOOKUP.put(com.myinfosysprogram.R.layout.item_home_rv, LAYOUT_ITEMHOMERV);
-    INTERNAL_LAYOUT_ID_LOOKUP.put(com.myinfosysprogram.R.layout.item_user_rv, LAYOUT_ITEMUSERRV);
+    INTERNAL_LAYOUT_ID_LOOKUP.put(com.myinfosysprogram.R.layout.item_main_weather, LAYOUT_ITEMMAINWEATHER);
   }
 
   @Override
@@ -45,11 +45,11 @@ public class DataBinderMapperImpl extends DataBinderMapper {
           }
           throw new IllegalArgumentException("The tag for item_home_rv is invalid. Received: " + tag);
         }
-        case  LAYOUT_ITEMUSERRV: {
-          if ("layout/item_user_rv_0".equals(tag)) {
-            return new ItemUserRvBindingImpl(component, view);
+        case  LAYOUT_ITEMMAINWEATHER: {
+          if ("layout/item_main_weather_0".equals(tag)) {
+            return new ItemMainWeatherBindingImpl(component, view);
           }
-          throw new IllegalArgumentException("The tag for item_user_rv is invalid. Received: " + tag);
+          throw new IllegalArgumentException("The tag for item_main_weather is invalid. Received: " + tag);
         }
       }
     }
@@ -108,7 +108,7 @@ public class DataBinderMapperImpl extends DataBinderMapper {
 
     static {
       sKeys.put("layout/item_home_rv_0", com.myinfosysprogram.R.layout.item_home_rv);
-      sKeys.put("layout/item_user_rv_0", com.myinfosysprogram.R.layout.item_user_rv);
+      sKeys.put("layout/item_main_weather_0", com.myinfosysprogram.R.layout.item_main_weather);
     }
   }
 }

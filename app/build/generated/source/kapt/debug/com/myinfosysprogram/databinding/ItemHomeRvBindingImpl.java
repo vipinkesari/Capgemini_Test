@@ -15,7 +15,9 @@ public class ItemHomeRvBindingImpl extends ItemHomeRvBinding  {
         sIncludes = null;
         sViewsWithIds = new android.util.SparseIntArray();
         sViewsWithIds.put(R.id.photoIv, 1);
-        sViewsWithIds.put(R.id.titleTv, 2);
+        sViewsWithIds.put(R.id.tempTv, 2);
+        sViewsWithIds.put(R.id.feelsTv, 3);
+        sViewsWithIds.put(R.id.dateTv, 4);
     }
     // views
     @NonNull
@@ -26,10 +28,12 @@ public class ItemHomeRvBindingImpl extends ItemHomeRvBinding  {
     // Inverse Binding Event Handlers
 
     public ItemHomeRvBindingImpl(@Nullable androidx.databinding.DataBindingComponent bindingComponent, @NonNull View root) {
-        this(bindingComponent, root, mapBindings(bindingComponent, root, 3, sIncludes, sViewsWithIds));
+        this(bindingComponent, root, mapBindings(bindingComponent, root, 5, sIncludes, sViewsWithIds));
     }
     private ItemHomeRvBindingImpl(androidx.databinding.DataBindingComponent bindingComponent, View root, Object[] bindings) {
         super(bindingComponent, root, 0
+            , (android.widget.TextView) bindings[4]
+            , (android.widget.TextView) bindings[3]
             , (android.widget.ImageView) bindings[1]
             , (android.widget.TextView) bindings[2]
             );

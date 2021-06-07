@@ -42,8 +42,4 @@ class ApiResponse<T> {
     fun isSuccessful(): Boolean {
         return code >= ApiResponseStatusCode.SUCCESS_200 && code < ApiResponseStatusCode.SUCCESS_300
     }
-
-
-
-
 }

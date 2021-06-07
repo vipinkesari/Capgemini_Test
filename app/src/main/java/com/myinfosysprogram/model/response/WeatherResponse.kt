@@ -1,16 +1,11 @@
 package com.myinfosysprogram.model.response
 
-import androidx.room.Entity
-import androidx.room.PrimaryKey
 
-@Entity(tableName = "list_rows")
-class PhotoRows {
-    @PrimaryKey(autoGenerate = true)
-    var id: Int = 0
-
-    var title: String? = ""
-
-    var url: String? = ""
-
-    var thumbnailUrl: String? = ""
+class WeatherResponse {
+    var lat: Double = 0.0
+    var lon: Double = 0.0
+    var timezone: String = ""
+    var timezone_offset: Long = 0
+    var current: WeatherCurrentDayResponse? = null
+    var daily: List<WeatherDailyResponse>? = null
 }

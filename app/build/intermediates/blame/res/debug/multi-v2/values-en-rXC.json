@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "/Users/vipinkeshari/Desktop/test_git/MyInfosysProgram/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-en-rXC/values-en-rXC.xml",
+            "outputFile": "/Users/vipinkeshari/Desktop/test_git/WeatherApp/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-en-rXC/values-en-rXC.xml",
             "map": [
                 {
                     "source": "/Users/vipinkeshari/.gradle/caches/transforms-2/files-2.1/da0fb0aa12f761dbc5ddc336a04f165d/core-1.5.0/res/values-en-rXC/values-en-rXC.xml",

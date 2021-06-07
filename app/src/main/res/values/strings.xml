@@ -2,24 +2,20 @@
     <string name="app_name">Test Program</string>
     <string name="action_refresh">Search</string>
 
-    <string name="hint_title">No Title</string>
-   <string name="iv_desc">Image Logo</string>
+    <string name="hint_title">Temprature</string>
+    <string name="iv_desc">Image Temprature</string>
 
     <string name="msg_no_internet">Please check your internet connection.</string>
-    <string name="msg_no_data">No data found.</string>
+    <string name="msg_no_data">No weather data found.</string>
     <string name="home_fragment_label">Home Fragment</string>
-    <string name="user_list">User List</string>
 
-    <string name="photo_page">Photo List</string>
-    <string name="user_page">User List</string>
-    <string name="map_page">Location</string>
-    <string name="search_page">Search</string>
-    <string name="no_geo">Location data found to show on map. Please try after some time.</string>
+    <string name="no_geo">Location data not found to show weather. Please try after some time.</string>
 
-    <string name="hint_company_name">No Company name</string>
-    <string name="hint_no_email">Email missing</string>
-    <string name="hint_no_website">No Web site</string>
-    <string name="hint_no_address">Address missing</string>
-    <string name="hint_no_contact">Phone number missing</string>
+    <string name="no_location_permission">Unable to get the current location as permission is not granted. Please allow the permission to update weather detail.</string>
 
+    <string name="hint_Feels_Like">Feels Like</string>
+    <string name="hint_updated">Updated on</string>
+    <string name="hint_date">Date</string>
+    <string name="btn_yes">Yes</string>
+    <string name="Btn_cancel">Cancel</string>
 </resources>

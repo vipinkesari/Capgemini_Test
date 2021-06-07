@@ -11,58 +11,36 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/dp_10"
+            android:gravity="center_horizontal"
             android:orientation="vertical">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:padding="@dimen/dp_10"
-                android:orientation="vertical">
-
-                <ImageView
-                    android:id="@+id/photoIv"
-                    android:layout_width="@dimen/thumb_image_size"
-                    android:layout_height="@dimen/thumb_image_size"
-                    android:contentDescription="@string/iv_desc"
-                    android:src="@drawable/placeholder" />
-
-                <TextView
-                    android:id="@+id/titleTv"
-                    style="@style/Item_TextViewStyle"
-                    android:layout_width="wrap_content"
-                    android:layout_marginTop="@dimen/dp_10"
-                    android:hint="@string/hint_title"
-                    android:textSize="@dimen/sp_20" />
-
-                <TextView
-                    android:id="@+id/companyNameTv"
-                    style="@style/Item_TextViewStyle"
-                    android:layout_marginTop="@dimen/dp_5"
-                    android:layout_width="wrap_content"
-                    android:hint="@string/hint_company_name" />
-            </LinearLayout>
+            <ImageView
+                android:id="@+id/weatherIv"
+                android:layout_width="@dimen/thumb_image_size"
+                android:layout_height="@dimen/thumb_image_size"
+                android:contentDescription="@string/iv_desc"
+                android:src="@drawable/placeholder" />
 
             <TextView
-                android:id="@+id/emailTv"
-                style="@style/Item_User_TextViewStyle"
-                android:hint="@string/hint_no_email" />
+                android:id="@+id/tempTv"
+                style="@style/Item_TextViewStyle"
+                android:layout_marginTop="@dimen/dp_10"
+                android:gravity="center"
+                android:hint="@string/hint_title"
+                android:textSize="@dimen/sp_20" />
 
             <TextView
-                android:id="@+id/websiteTv"
-                style="@style/Item_User_TextViewStyle"
-                android:hint="@string/hint_no_website" />
+                android:id="@+id/feelsTv"
+                style="@style/Item_TextViewStyle"
+                android:gravity="center"
+                android:layout_marginTop="@dimen/dp_5"
+                android:hint="@string/hint_Feels_Like" />
 
             <TextView
-                android:id="@+id/addressTv"
+                android:id="@+id/dateTv"
                 style="@style/Item_User_TextViewStyle"
-                android:hint="@string/hint_no_address" />
-
-            <TextView
-                android:id="@+id/contactTv"
-                style="@style/Item_User_TextViewStyle"
-                android:hint="@string/hint_no_contact" />
-
+                android:gravity="center"
+                android:hint="@string/hint_updated" />
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 </layout>

@@ -6,7 +6,11 @@ import android.net.NetworkCapabilities
 import android.os.Build
 import android.view.View
 import com.google.android.material.snackbar.Snackbar
+import com.google.gson.Gson
 import com.myinfosysprogram.R
+import com.myinfosysprogram.model.response.WeatherResponse
+import java.text.SimpleDateFormat
+import java.util.*
 
 
 fun verifyAvailableNetwork(context: Context, view: View?): Boolean {
@@ -42,6 +46,19 @@ fun verifyAvailableNetwork(context: Context, view: View?): Boolean {
 
 fun showShackBarMsg(view: View, msg: String) {
     Snackbar.make(view, msg, Snackbar.LENGTH_LONG).show()
+}
+
+private val simpleDateFormat = SimpleDateFormat("dd MMMM yyyy, HH:mm:ss", Locale.ENGLISH)
+fun getDateString(time: Long) : String = simpleDateFormat.format(time * 1000L)
+
+fun convertJsonToString(response: WeatherResponse?): String {
+    val gson = Gson()
+    return gson.toJson(response)
+}
+
+fun convertStringToJson(res: String): WeatherResponse? {
+    val gson = Gson()
+    return gson.fromJson(res, WeatherResponse::class.java)
 }
 
 

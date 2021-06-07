@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import com.myinfosysprogram.model.request.GeneralRequest
-import com.myinfosysprogram.model.response.PhotoRows
+import com.myinfosysprogram.model.response.WeatherResponse
 import com.myinfosysprogram.repository.GeneralRepository
 import com.myinfosysprogram.retrofit.Resource
 import org.koin.dsl.module
@@ -17,25 +17,29 @@ val listViewModelModule = module {
 class ListViewModel(private val generalRepository: GeneralRepository) : ViewModel() {
 
     private var generalRequestMutableLiveData = MutableLiveData<GeneralRequest>()
-    private var listResponseLiveData: LiveData<Resource<List<PhotoRows>>>
-    private var listUpdateMutableLiveData = MutableLiveData<List<PhotoRows>>()
+    private var listResponseLiveData: LiveData<Resource<WeatherResponse>>
+    private var listUpdateMutableLiveData = MutableLiveData<String>()
 
     init {
         listResponseLiveData = Transformations.switchMap(generalRequestMutableLiveData) { input ->
             if (input == null) {
                 return@switchMap null //AbsentLiveData.create()
             } else
-                return@switchMap generalRepository.getPhotoListApi()
+                return@switchMap generalRequestMutableLiveData.value?.let {
+                    generalRepository.getWeatherListApi(
+                        it
+                    )
+                }
         }
     }
 
-    fun updateDatabase(list: ArrayList<PhotoRows>) {
+    fun updateDatabase(list: String) {
         generalRepository.savePhotoData(list)
     }
 
     fun getRowsData() {
-        val list = generalRepository.getRowsListFromDb()
-        listUpdateMutableLiveData.value = list
+        val resDB = generalRepository.getRowsListFromDb()
+        listUpdateMutableLiveData.value = resDB.response
     }
 
     fun getGeneralMutableRequest(request: GeneralRequest) {

@@ -9,34 +9,42 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/dp_10"
-            android:orientation="vertical">
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
 
-            <RelativeLayout
+            <ImageView
+                android:id="@+id/photoIv"
+                android:layout_width="@dimen/thumb_image_size"
+                android:layout_height="@dimen/thumb_image_size"
+                android:layout_margin="@dimen/dp_20"
+                android:contentDescription="@string/iv_desc"
+                android:src="@drawable/placeholder" />
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dp_10">
-
-                <ImageView
-                    android:id="@+id/photoIv"
-                    android:layout_width="@dimen/thumb_image_size"
-                    android:layout_height="@dimen/thumb_image_size"
-                    android:layout_alignParentStart="true"
-                    android:layout_alignParentLeft="true"
-                    android:layout_marginEnd="@dimen/dp_20"
-                    android:layout_marginRight="@dimen/dp_20"
-                    android:contentDescription="@string/iv_desc"
-                    android:src="@drawable/placeholder" />
+                android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/titleTv"
+                    android:id="@+id/tempTv"
                     style="@style/Item_TextViewStyle"
-                    android:layout_centerInParent="true"
-                    android:layout_toRightOf="@+id/photoIv"
                     android:hint="@string/hint_title"
-                    android:textSize="@dimen/sp_20"
-                    android:layout_toEndOf="@+id/photoIv" />
-            </RelativeLayout>
+                    android:textSize="@dimen/sp_20" />
+
+                <TextView
+                    android:id="@+id/feelsTv"
+                    style="@style/Item_TextViewStyle"
+                    android:hint="@string/hint_Feels_Like"
+                    android:layout_marginTop="@dimen/dp_10"
+                    android:textSize="@dimen/sp_12" />
+
+                <TextView
+                    android:id="@+id/dateTv"
+                    style="@style/Item_TextViewStyle"
+                    android:hint="@string/hint_date"
+                    android:layout_marginTop="@dimen/dp_10"
+                    android:textSize="@dimen/sp_12" />
+            </LinearLayout>
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 </layout>
